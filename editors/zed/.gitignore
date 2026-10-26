@@ -1,0 +1,4 @@
+# Built by Zed when installing the extension.
+/grammars/
+/extension.wasm
+/target/

@@ -1,0 +1,18 @@
+{
+  "name": "tree-sitter-hdl",
+  "version": "0.1.0",
+  "description": "Nand to Tetris HDL grammar for tree-sitter",
+  "license": "MPL-2.0",
+  "main": "bindings/node",
+  "keywords": ["tree-sitter", "nand2tetris", "hdl"],
+  "tree-sitter": [
+    {
+      "scope": "source.hdl",
+      "file-types": ["hdl"],
+      "highlights": "queries/highlights.scm"
+    }
+  ],
+  "devDependencies": {
+    "tree-sitter-cli": "^0.25.0"
+  }
+}

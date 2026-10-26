@@ -1,0 +1,22 @@
+[
+  {
+    "label": "n2t test $ZED_FILENAME",
+    "command": "n2t",
+    "args": ["test", "$ZED_FILE"],
+    "cwd": "$ZED_DIRNAME",
+    "tags": ["n2t-script"]
+  },
+  {
+    "label": "n2t check $ZED_FILENAME",
+    "command": "n2t",
+    "args": ["check", "$ZED_FILE"],
+    "cwd": "$ZED_DIRNAME",
+    "tags": ["n2t-script"]
+  },
+  {
+    "label": "n2t test (folder)",
+    "command": "n2t",
+    "args": ["test", "$ZED_DIRNAME"],
+    "cwd": "$ZED_DIRNAME"
+  }
+]

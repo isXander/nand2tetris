@@ -1,0 +1,16 @@
+[package]
+name = "n2t-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "n2t"
+path = "src/main.rs"
+
+[dependencies]
+n2t-core.workspace = true
+n2t-lsp.workspace = true
+n2t-simulator.workspace = true
+clap = { version = "4", features = ["derive"] }

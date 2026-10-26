@@ -1,0 +1,20 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/*",
+    "editors/zed",
+]
+default-members = [
+    "crates/*",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MPL-2.0"
+repository = "https://github.com/isXander/nand2tetris"
+
+[workspace.dependencies]
+n2t-core = { path = "crates/core" }
+n2t-lsp = { path = "crates/lsp" }
+n2t-simulator = { path = "crates/simulator" }

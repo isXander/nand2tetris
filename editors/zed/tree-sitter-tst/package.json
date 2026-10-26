@@ -1,0 +1,18 @@
+{
+  "name": "tree-sitter-tst",
+  "version": "0.1.0",
+  "description": "Nand to Tetris test script grammar for tree-sitter",
+  "license": "MPL-2.0",
+  "main": "bindings/node",
+  "keywords": ["tree-sitter", "nand2tetris", "tst"],
+  "tree-sitter": [
+    {
+      "scope": "source.tst",
+      "file-types": ["tst"],
+      "highlights": "queries/highlights.scm"
+    }
+  ],
+  "devDependencies": {
+    "tree-sitter-cli": "^0.25.0"
+  }
+}

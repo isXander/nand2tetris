@@ -1,0 +1,20 @@
+{
+  "grammars": [
+    {
+      "name": "hdl",
+      "camelcase": "Hdl",
+      "scope": "source.hdl",
+      "path": ".",
+      "file-types": ["hdl"],
+      "highlights": "../languages/hdl/highlights.scm"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MPL-2.0",
+    "description": "Nand to Tetris HDL grammar for tree-sitter",
+    "links": {
+      "repository": "https://github.com/isXander/nand2tetris"
+    }
+  }
+}

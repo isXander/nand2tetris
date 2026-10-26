@@ -1,0 +1,405 @@
+[
+  {
+    "type": "boolean",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "builtin_section",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "clocked_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "chip_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "builtin_section",
+          "named": true
+        },
+        {
+          "type": "input_section",
+          "named": true
+        },
+        {
+          "type": "output_section",
+          "named": true
+        },
+        {
+          "type": "parts_section",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "chip_definition",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "chip_body",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "clocked_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "connection",
+    "named": true,
+    "fields": {
+      "pin": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "pin_reference",
+            "named": true
+          }
+        ]
+      },
+      "signal": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "pin_reference",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "connection_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "connection",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "input_section",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "pin_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "output_section",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "pin_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "part",
+    "named": true,
+    "fields": {
+      "chip": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "connections": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "connection_list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "parts_section",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "part",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pin_declaration",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "width": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "pin_reference",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "selector": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "selector",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "selector",
+    "named": true,
+    "fields": {
+      "end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "chip_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "..",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "BUILTIN",
+    "named": false
+  },
+  {
+    "type": "CHIP",
+    "named": false
+  },
+  {
+    "type": "CLOCKED",
+    "named": false
+  },
+  {
+    "type": "IN",
+    "named": false
+  },
+  {
+    "type": "OUT",
+    "named": false
+  },
+  {
+    "type": "PARTS",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "block_comment",
+    "named": true,
+    "extra": true
+  },
+  {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "line_comment",
+    "named": true,
+    "extra": true
+  },
+  {
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]

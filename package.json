@@ -1,0 +1,15 @@
+{
+  "name": "nand2tetris",
+  "private": true,
+  "workspaces": [
+    "editors/code"
+  ],
+  "scripts": {
+    "build:rust": "cargo build --release",
+    "build:code": "bun run --cwd editors/code build",
+    "build:zed": "cargo build -p n2t-zed --target wasm32-wasip2 --release",
+    "test": "cargo test --workspace",
+    "zed:pin-grammars": "bun editors/zed/scripts/pin-grammars.ts",
+    "zed:generate-grammars": "bun editors/zed/scripts/generate-grammars.ts"
+  }
+}

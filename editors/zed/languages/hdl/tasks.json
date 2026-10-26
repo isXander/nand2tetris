@@ -1,0 +1,35 @@
+[
+  {
+    "label": "n2t test $ZED_STEM.tst",
+    "command": "n2t",
+    "args": ["test", "$ZED_DIRNAME/$ZED_STEM.tst"],
+    "cwd": "$ZED_DIRNAME",
+    "tags": ["n2t-chip"]
+  },
+  {
+    "label": "n2t check $ZED_FILENAME",
+    "command": "n2t",
+    "args": ["check", "$ZED_FILE"],
+    "cwd": "$ZED_DIRNAME",
+    "tags": ["n2t-chip"]
+  },
+  {
+    "label": "n2t eval $ZED_STEM",
+    "command": "n2t",
+    "args": ["eval", "$ZED_FILE"],
+    "cwd": "$ZED_DIRNAME",
+    "tags": ["n2t-chip"]
+  },
+  {
+    "label": "n2t check (folder)",
+    "command": "n2t",
+    "args": ["check", "$ZED_DIRNAME"],
+    "cwd": "$ZED_DIRNAME"
+  },
+  {
+    "label": "n2t test (folder)",
+    "command": "n2t",
+    "args": ["test", "$ZED_DIRNAME"],
+    "cwd": "$ZED_DIRNAME"
+  }
+]

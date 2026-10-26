@@ -1,0 +1,27 @@
+id = "nand2tetris"
+name = "Nand2Tetris"
+description = "Nand to Tetris HDL and test script support: syntax highlighting, diagnostics, completion, navigation, rename and test runners."
+version = "0.1.0"
+schema_version = 1
+authors = ["isXander"]
+repository = "https://github.com/isXander/nand2tetris"
+
+# The grammars live in this repository. `rev` must be a commit that contains
+# them; run `bun run zed:pin-grammars` after committing to update it.
+[grammars.hdl]
+repository = "https://github.com/isXander/nand2tetris"
+rev = "0000000000000000000000000000000000000000"
+path = "editors/zed/tree-sitter-hdl"
+
+[grammars.tst]
+repository = "https://github.com/isXander/nand2tetris"
+rev = "0000000000000000000000000000000000000000"
+path = "editors/zed/tree-sitter-tst"
+
+[language_servers.n2t]
+name = "Nand2Tetris Language Server"
+languages = ["Nand2Tetris HDL", "Nand2Tetris Test Script"]
+
+[language_servers.n2t.language_ids]
+"Nand2Tetris HDL" = "hdl"
+"Nand2Tetris Test Script" = "tst"
