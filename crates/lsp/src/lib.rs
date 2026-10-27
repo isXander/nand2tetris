@@ -36,23 +36,23 @@ pub fn run(connection: Connection) -> Result<()> {
     let capabilities = serde_json::to_value(capabilities())?;
     let params: lsp::InitializeParams =
         serde_json::from_value(connection.initialize(capabilities)?)?;
-    let snippets = params
-        .capabilities
-        .text_document
-        .as_ref()
-        .and_then(|t| t.completion.as_ref())
-        .and_then(|c| c.completion_item.as_ref())
-        .and_then(|i| i.snippet_support)
-        .unwrap_or(false);
-    let mut server = Server {
-        connection,
-        workspace: Workspace::new(),
-        snippets,
-    };
-    server.main_loop()
+    let mut server = Server::new(&params);
+    while let Ok(message) = connection.receiver.recv() {
+        if let Message::Request(request) = &message
+            && connection.handle_shutdown(request)?
+        {
+            return Ok(());
+        }
+        server.handle(message)?;
+        for message in server.take_outgoing() {
+            connection.sender.send(message)?;
+        }
+    }
+    Ok(())
 }
 
-fn capabilities() -> lsp::ServerCapabilities {
+/// The capabilities advertised in the `initialize` response.
+pub fn capabilities() -> lsp::ServerCapabilities {
     lsp::ServerCapabilities {
         text_document_sync: Some(lsp::TextDocumentSyncCapability::Options(
             lsp::TextDocumentSyncOptions {
@@ -90,36 +90,52 @@ fn capabilities() -> lsp::ServerCapabilities {
     }
 }
 
-struct Server {
-    connection: Connection,
+/// A transport-independent server: feed it messages with [`Server::handle`]
+/// and collect its replies with [`Server::take_outgoing`]. The
+/// `initialize`/`shutdown` handshake is left to the transport.
+pub struct Server {
     workspace: Workspace,
     snippets: bool,
+    outbox: Vec<Message>,
 }
 
 impl Server {
-    fn main_loop(&mut self) -> Result<()> {
-        while let Ok(message) = self.connection.receiver.recv() {
-            match message {
-                Message::Request(request) => {
-                    if self.connection.handle_shutdown(&request)? {
-                        return Ok(());
-                    }
-                    self.request(request)?;
-                }
-                Message::Notification(notification) => self.notification(notification)?,
-                Message::Response(_) => {}
-            }
+    pub fn new(params: &lsp::InitializeParams) -> Self {
+        let snippets = params
+            .capabilities
+            .text_document
+            .as_ref()
+            .and_then(|t| t.completion.as_ref())
+            .and_then(|c| c.completion_item.as_ref())
+            .and_then(|i| i.snippet_support)
+            .unwrap_or(false);
+        Self {
+            workspace: Workspace::new(),
+            snippets,
+            outbox: Vec::new(),
         }
-        Ok(())
     }
 
-    fn send(&self, message: Message) -> Result<()> {
-        self.connection.sender.send(message)?;
+    pub fn handle(&mut self, message: Message) -> Result<()> {
+        match message {
+            Message::Request(request) => self.request(request),
+            Message::Notification(notification) => self.notification(notification),
+            Message::Response(_) => Ok(()),
+        }
+    }
+
+    /// Messages produced since the last call.
+    pub fn take_outgoing(&mut self) -> Vec<Message> {
+        std::mem::take(&mut self.outbox)
+    }
+
+    fn send(&mut self, message: Message) -> Result<()> {
+        self.outbox.push(message);
         Ok(())
     }
 
     fn respond(
-        &self,
+        &mut self,
         id: RequestId,
         result: std::result::Result<Value, (ErrorCode, String)>,
     ) -> Result<()> {
@@ -320,7 +336,7 @@ impl Server {
     }
 
     fn publish(
-        &self,
+        &mut self,
         uri: &Url,
         diagnostics: Vec<lsp::Diagnostic>,
         version: Option<i32>,

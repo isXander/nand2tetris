@@ -40,6 +40,18 @@ intellijPlatform {
         ideaVersion { sinceBuild = "252" }
     }
     buildSearchableOptions = false
+
+    // Credentials come from the environment (see .github/workflows/publish-idea.yml).
+    signing {
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
+        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+    }
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+        // `1.2.3-beta.1` goes to the `beta` channel, everything else to the default one.
+        channels = listOf(project.version.toString().substringAfter('-', "").substringBefore('.').ifEmpty { "default" })
+    }
 }
 
 // TextMate needs a real directory on disk, rather than resources inside a JAR.

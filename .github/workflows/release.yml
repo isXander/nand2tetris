@@ -4,6 +4,9 @@
 #
 #   git tag v0.1.0 && git push origin v0.1.0
 #
+# Editor plugins are versioned and released independently (publish-*.yml, tags
+# `vscode-v*`, `idea-v*`, `zed-v*`), hence the digit in the tag filter below.
+#
 # Asset names follow what the Zed extension downloads (editors/zed/src/lib.rs):
 # `n2t-<arch>-<target>.tar.gz` (`.zip` on Windows) with the `n2t` binary at the
 # archive root. Tags with a suffix (`v0.2.0-rc.1`) become pre-releases, which the
@@ -12,7 +15,7 @@ name: Release
 
 on:
   push:
-    tags: ["v*"]
+    tags: ["v[0-9]*"]
   workflow_dispatch:
     inputs:
       tag:

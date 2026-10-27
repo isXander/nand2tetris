@@ -1,0 +1,59 @@
+# Publishes the Zed extension by opening a pull request against
+# zed-industries/extensions from a fork.
+#
+# Versioned independently of the Rust crates. Bump `version` in
+# editors/zed/extension.toml and editors/zed/Cargo.toml, then:
+#
+#   git tag zed-v0.1.0 && git push origin zed-v0.1.0
+#
+# Secret: ZED_EXTENSIONS_TOKEN, a personal access token (classic, `repo` and
+# `workflow` scopes) for the account that owns the fork. Fork
+# https://github.com/zed-industries/extensions to that account first.
+#
+# The first release has to be added to zed-industries/extensions by hand (as a
+# submodule plus an extensions.toml entry); this workflow only updates it.
+name: Publish Zed extension
+
+on:
+  push:
+    tags: ["zed-v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to publish, e.g. zed-v0.1.0"
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - name: Check versions and grammar pins
+        run: |
+          version=$(sed -n 's/^version = "\(.*\)"$/\1/p' editors/zed/extension.toml | head -n1)
+          cargo_version=$(sed -n 's/^version = "\(.*\)"$/\1/p' editors/zed/Cargo.toml | head -n1)
+          if [ "$TAG" != "zed-v$version" ]; then
+            echo "::error::tag $TAG does not match editors/zed/extension.toml version $version"; exit 1
+          fi
+          if [ "$cargo_version" != "$version" ]; then
+            echo "::error::editors/zed/Cargo.toml version $cargo_version does not match extension.toml $version"; exit 1
+          fi
+          if grep -q '^repository = "file://' editors/zed/extension.toml; then
+            echo "::error::grammar repositories in extension.toml are local; run 'bun run zed:pin-grammars', push, and retag"; exit 1
+          fi
+      - uses: huacnlee/zed-extension-action@v2
+        with:
+          extension-name: nand2tetris
+          extension-path: editors/zed
+          push-to: ${{ github.repository_owner }}/extensions
+          tag: ${{ env.TAG }}
+        env:
+          COMMITTER_TOKEN: ${{ secrets.ZED_EXTENSIONS_TOKEN }}

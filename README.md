@@ -2,7 +2,7 @@
 
 A toolchain for the hardware half of [Nand to Tetris](https://www.nand2tetris.org/):
 an HDL compiler, a hardware simulator and test-script runner, a language server,
-and editor extensions for VS Code, Zed and IntelliJ IDEA.
+editor extensions for VS Code, Zed, and IntelliJ IDEA.
 
 ```console
 $ n2t test projects/01

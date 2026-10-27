@@ -119,7 +119,8 @@ pub struct Workspace {
 
 impl Workspace {
     pub fn new() -> Self {
-        let base = std::env::temp_dir().join(format!("n2t-lsp-{}", env!("CARGO_PKG_VERSION")));
+        let tmp = std::env::var_os("TMPDIR").map_or_else(std::env::temp_dir, PathBuf::from);
+        let base = tmp.join(format!("n2t-lsp-{}", env!("CARGO_PKG_VERSION")));
         Self {
             docs: HashMap::new(),
             projects: HashMap::new(),

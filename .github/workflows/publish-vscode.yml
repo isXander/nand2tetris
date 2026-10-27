@@ -1,0 +1,107 @@
+# Publishes the VS Code extension to the Visual Studio Marketplace and Open VSX.
+#
+# Versioned independently of the Rust crates. Bump `version` in
+# editors/code/package.json, then:
+#
+#   git tag vscode-v0.1.0 && git push origin vscode-v0.1.0
+#
+# Builds one platform-specific package per target with `n2t` bundled.
+#
+# Secrets: VSCE_PAT (Marketplace), OVSX_PAT (Open VSX). A registry whose secret
+# is missing is skipped.
+name: Publish VS Code extension
+
+on:
+  push:
+    tags: ["vscode-v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to publish, e.g. vscode-v0.1.0"
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  package:
+    name: Package ${{ matrix.vscode_target }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - { os: macos-latest, vscode_target: darwin-arm64, rust_target: aarch64-apple-darwin }
+          - { os: macos-latest, vscode_target: darwin-x64, rust_target: x86_64-apple-darwin }
+          - { os: ubuntu-22.04, vscode_target: linux-x64, rust_target: x86_64-unknown-linux-gnu }
+          - { os: ubuntu-22.04-arm, vscode_target: linux-arm64, rust_target: aarch64-unknown-linux-gnu }
+          - { os: windows-latest, vscode_target: win32-x64, rust_target: x86_64-pc-windows-msvc }
+          - { os: windows-latest, vscode_target: win32-arm64, rust_target: aarch64-pc-windows-msvc }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - name: Tag matches the extension version
+        shell: bash
+        run: |
+          version=$(node -p "require('./editors/code/package.json').version")
+          if [ "$TAG" != "vscode-v$version" ]; then
+            echo "::error::tag $TAG does not match editors/code/package.json version $version"
+            exit 1
+          fi
+      - uses: oven-sh/setup-bun@v2
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust_target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.rust_target }}
+      - run: bun install --frozen-lockfile
+      - run: bun run --cwd editors/code typecheck
+      - run: bun run --cwd editors/code build
+      - name: Bundle n2t
+        working-directory: editors/code
+        run: bun scripts/bundle-server.ts --target ${{ matrix.rust_target }}
+      - name: Package
+        working-directory: editors/code
+        run: bunx vsce package --no-dependencies --skip-license --target ${{ matrix.vscode_target }} --out nand2tetris-${{ matrix.vscode_target }}.vsix
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vsix-${{ matrix.vscode_target }}
+          path: editors/code/*.vsix
+          if-no-files-found: error
+
+  publish:
+    name: Publish
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          path: vsix
+          pattern: vsix-*
+          merge-multiple: true
+      - name: Visual Studio Marketplace
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          if [ -z "$VSCE_PAT" ]; then echo "::warning::VSCE_PAT not set, skipping the Marketplace"; exit 0; fi
+          bunx vsce publish --packagePath ../../vsix/*.vsix
+        working-directory: editors/code
+      - name: Open VSX
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: |
+          if [ -z "$OVSX_PAT" ]; then echo "::warning::OVSX_PAT not set, skipping Open VSX"; exit 0; fi
+          for vsix in ../../vsix/*.vsix; do
+            bunx ovsx publish "$vsix" --pat "$OVSX_PAT"
+          done
+        working-directory: editors/code
