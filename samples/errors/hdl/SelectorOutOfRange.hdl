@@ -1,0 +1,7 @@
+CHIP SelectorOutOfRange {
+    IN a[4];
+    OUT out;
+
+    PARTS:
+    Not(in=a[4], out=out);
+}

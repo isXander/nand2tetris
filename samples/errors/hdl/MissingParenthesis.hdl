@@ -1,0 +1,8 @@
+CHIP MissingParenthesis {
+    IN a;
+    OUT out;
+
+    PARTS:
+    Not(in=a, out=x;
+    Not(in=x out=out);
+}

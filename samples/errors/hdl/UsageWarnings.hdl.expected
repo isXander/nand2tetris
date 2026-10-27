@@ -1,0 +1,4 @@
+UsageWarnings.hdl:7:5: warning[hdl-unconnected-part-input]: input `b` of `And` is not connected; it defaults to false
+UsageWarnings.hdl:2:11: warning[hdl-unused-input]: input `b` is never used
+UsageWarnings.hdl:3:9: warning[hdl-undriven-output]: bit 1 of output `out` is never driven; it will always be 0
+UsageWarnings.hdl:6:31: warning[hdl-unused-signal]: internal signal `unused` is never used

@@ -30,5 +30,15 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # IntelliJ based IDEs
 .idea
 
+# bundled language server (see scripts/bundle-server.ts)
+server/
+
 # Finder (MacOS) folder config
 .DS_Store
+
+# Generated from /grammars/textmate by the build.
+/syntaxes/
+/language-configuration/
+
+# Packaged extension.
+*.vsix

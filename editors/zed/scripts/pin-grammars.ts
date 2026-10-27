@@ -31,8 +31,16 @@ const repository = process.argv.includes("--local")
   ? pathToFileURL(root).href
   : GITHUB_REPOSITORY;
 
+const manifest = await Bun.file(manifestPath).text();
+const grammarPaths = [...manifest.matchAll(/^path = "(grammars\/tree-sitter\/[^"]+)"$/gm)]
+  .map((match) => match[1]!);
+for (const path of grammarPaths) {
+  // Zed fetches a committed snapshot; uncommitted moves cannot be pinned yet.
+  await git("cat-file", "-e", `${rev}:${path}/src/parser.c`);
+}
+
 let inGrammar = false;
-const lines = (await Bun.file(manifestPath).text()).split("\n").map((line) => {
+const lines = manifest.split("\n").map((line) => {
   if (line.startsWith("[")) {
     inGrammar = line.startsWith("[grammars.");
   }

@@ -1,0 +1,1 @@
+ClockMismatch.hdl:5:13: warning[hdl-builtin-clock-mismatch]: clocked pins differ from the built-in `DFF` interface, which declares `CLOCKED in;`

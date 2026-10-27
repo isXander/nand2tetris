@@ -1,0 +1,2 @@
+MissingSemicolon.hdl:5:5: error[unexpected-token]: expected `,` or `;`, found keyword `PARTS`
+MissingSemicolon.hdl:7:1: error[unexpected-token]: expected `;` after part, found `}`

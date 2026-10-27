@@ -1,0 +1,1 @@
+OutputOrder.tst:2:1: error[tst-no-output-file]: `output-list` requires an output file; add `output-file Xxx.out` first

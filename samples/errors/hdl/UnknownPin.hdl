@@ -1,0 +1,7 @@
+CHIP UnknownPin {
+    IN a;
+    OUT out;
+
+    PARTS:
+    Not(input=a, out=out);
+}

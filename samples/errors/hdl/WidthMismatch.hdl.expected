@@ -1,0 +1,2 @@
+WidthMismatch.hdl:6:9: error[hdl-width-mismatch]: width mismatch: `in` selects 1 bit but `a` provides 16
+WidthMismatch.hdl:7:11: error[hdl-width-mismatch]: width mismatch: `in` selects 16 bits but `b` provides 1

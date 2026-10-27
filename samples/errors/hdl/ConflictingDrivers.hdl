@@ -1,0 +1,9 @@
+CHIP ConflictingDrivers {
+    IN a;
+    OUT out;
+
+    PARTS:
+    Not(in=a, out=out);
+    Not(in=a, out=w);
+    Not(in=w, out=w);
+}

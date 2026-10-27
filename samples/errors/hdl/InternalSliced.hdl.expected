@@ -1,0 +1,1 @@
+InternalSliced.hdl:7:16: error[hdl-internal-signal-sliced]: internal signal `wide` cannot be indexed or sliced; select the bits from the driving part's output pin instead

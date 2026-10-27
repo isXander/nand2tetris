@@ -1,0 +1,8 @@
+CHIP ConstantAsOutput {
+    IN a;
+    OUT out;
+
+    PARTS:
+    Not(in=a, out=true);
+    Not(in=a, out=out);
+}

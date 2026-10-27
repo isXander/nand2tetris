@@ -7,9 +7,14 @@
   "scripts": {
     "build:rust": "cargo build --release",
     "build:code": "bun run --cwd editors/code build",
-    "build:zed": "cargo build -p n2t-zed --target wasm32-wasip2 --release",
+    "build:zed": "bun run zed:sync-grammars && cargo build -p n2t-zed --target wasm32-wasip2 --release",
     "test": "cargo test --workspace",
     "zed:pin-grammars": "bun editors/zed/scripts/pin-grammars.ts",
-    "zed:generate-grammars": "bun editors/zed/scripts/generate-grammars.ts"
+    "zed:generate-grammars": "bun run grammars:generate",
+    "build:idea": "cd editors/idea && ./gradlew buildPlugin",
+    "idea:run": "cd editors/idea && ./gradlew runIde",
+    "idea:verify": "cd editors/idea && ./gradlew verifyPluginStructure",
+    "grammars:generate": "bun grammars/scripts/generate.ts",
+    "zed:sync-grammars": "bun editors/zed/scripts/sync-grammars.ts"
   }
 }

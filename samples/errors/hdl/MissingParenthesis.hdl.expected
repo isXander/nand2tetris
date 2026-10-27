@@ -1,0 +1,2 @@
+MissingParenthesis.hdl:6:20: error[unexpected-token]: expected `,` or `)`, found `;`
+MissingParenthesis.hdl:7:14: error[unexpected-token]: expected `,` or `)`, found identifier `out`

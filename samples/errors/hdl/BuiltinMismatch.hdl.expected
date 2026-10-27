@@ -1,0 +1,1 @@
+BuiltinMismatch.hdl:1:6: error[hdl-builtin-interface-mismatch]: the interface of `BuiltinMismatch` does not match built-in `Not`, which is `Not(in) -> (out)`

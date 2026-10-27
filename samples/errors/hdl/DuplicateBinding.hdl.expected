@@ -1,0 +1,2 @@
+DuplicateBinding.hdl:6:28: warning[hdl-duplicate-binding]: `out` is connected to the same part output more than once
+    note: first connected here (DuplicateBinding.hdl:6:19)

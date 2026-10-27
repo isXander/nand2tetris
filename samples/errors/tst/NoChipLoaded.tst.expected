@@ -1,0 +1,1 @@
+NoChipLoaded.tst:1:1: error[tst-no-chip-loaded]: no chip has been loaded; add `load Xxx.hdl` before this command

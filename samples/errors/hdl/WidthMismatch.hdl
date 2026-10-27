@@ -1,0 +1,8 @@
+CHIP WidthMismatch {
+    IN a[16], b;
+    OUT out, c[16];
+
+    PARTS:
+    Not(in=a, out=out);
+    Not16(in=b, out=c);
+}

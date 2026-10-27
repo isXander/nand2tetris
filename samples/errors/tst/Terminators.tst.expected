@@ -1,0 +1,3 @@
+Terminators.tst:1:13: error[tst-missing-terminator]: expected `,`, `;` or `!` after `load`, found `output-file`
+Terminators.tst:3:5: error[tst-missing-terminator]: expected `,`, `;` or `!` after `eval`, found `eval`
+Terminators.tst:4:8: error[tst-missing-terminator]: expected `,`, `;` or `!` after `set`, found end of file

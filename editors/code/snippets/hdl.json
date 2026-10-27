@@ -1,0 +1,43 @@
+{
+  "Composite chip": {
+    "prefix": "chip",
+    "description": "A chip implemented with parts",
+    "body": [
+      "/**",
+      " * ${2:Description}",
+      " */",
+      "CHIP ${1:${TM_FILENAME_BASE}} {",
+      "    IN ${3:a, b};",
+      "    OUT ${4:out};",
+      "",
+      "    PARTS:",
+      "    $0",
+      "}"
+    ]
+  },
+  "Built-in chip": {
+    "prefix": "builtin",
+    "description": "A chip implemented by the simulator",
+    "body": [
+      "CHIP ${1:${TM_FILENAME_BASE}} {",
+      "    IN ${2:in};",
+      "    OUT ${3:out};",
+      "",
+      "    BUILTIN ${4:${1}};",
+      "}"
+    ]
+  },
+  "Clocked built-in chip": {
+    "prefix": "builtin-clocked",
+    "description": "A sequential chip implemented by the simulator",
+    "body": [
+      "CHIP ${1:${TM_FILENAME_BASE}} {",
+      "    IN ${2:in, load};",
+      "    OUT ${3:out};",
+      "",
+      "    BUILTIN ${4:${1}};",
+      "    CLOCKED ${5:in, load};",
+      "}"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+TwoRams.tst:2:5: error[tst-ambiguous-builtin-chip]: the loaded chip contains 2 instances of built-in `RAM8`; scripts cannot tell which one is meant

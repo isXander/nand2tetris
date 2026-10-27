@@ -1,0 +1,7 @@
+CHIP KeywordAsName {
+    IN true;
+    OUT out;
+
+    PARTS:
+    Not(in=true, out=out);
+}

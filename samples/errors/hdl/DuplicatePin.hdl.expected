@@ -1,0 +1,4 @@
+DuplicatePin.hdl:2:11: error[hdl-duplicate-pin]: pin `a` is declared more than once
+    note: first declared here (DuplicatePin.hdl:2:8)
+DuplicatePin.hdl:3:14: error[hdl-duplicate-pin]: pin `a` is declared more than once
+    note: first declared here (DuplicatePin.hdl:2:8)

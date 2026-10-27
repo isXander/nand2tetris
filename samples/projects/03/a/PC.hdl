@@ -1,0 +1,14 @@
+/**
+ * 16-bit counter: if reset out = 0, else if load out = in, else if inc out = out + 1.
+ */
+CHIP PC {
+    IN in[16], load, inc, reset;
+    OUT out[16];
+
+    PARTS:
+    Inc16(in=current, out=plusOne);
+    Mux16(a=current, b=plusOne, sel=inc, out=w1);
+    Mux16(a=w1, b=in, sel=load, out=w2);
+    Mux16(a=w2, b=false, sel=reset, out=next);
+    Register(in=next, load=true, out=current, out=out);
+}

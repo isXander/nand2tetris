@@ -1,0 +1,1 @@
+UnknownPin.hdl:6:9: error[hdl-unknown-pin]: chip `Not` has no pin named `input` (available: `in`, `out`)

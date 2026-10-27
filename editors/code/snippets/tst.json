@@ -1,0 +1,44 @@
+{
+  "Test script": {
+    "prefix": "test",
+    "description": "Load a chip, open output and compare files, and declare the output columns",
+    "body": [
+      "load ${1:${TM_FILENAME_BASE}}.hdl,",
+      "output-file ${1}.out,",
+      "compare-to ${1}.cmp,",
+      "output-list ${2:a%B3.1.3 b%B3.1.3 out%B3.1.3};",
+      "",
+      "$0"
+    ]
+  },
+  "Sequential test script": {
+    "prefix": "test-clocked",
+    "description": "A test script for a clocked chip, with a time column",
+    "body": [
+      "load ${1:${TM_FILENAME_BASE}}.hdl,",
+      "output-file ${1}.out,",
+      "compare-to ${1}.cmp,",
+      "output-list time%S1.4.1 ${2:in%B2.1.2 load%B2.1.2 out%B2.1.2};",
+      "",
+      "set ${3:in} ${4:0}, tick, output; tock, output;",
+      "$0"
+    ]
+  },
+  "Set and evaluate": {
+    "prefix": "seteval",
+    "body": ["set ${1:a} ${2:0}, eval, output;"]
+  },
+  "Clock cycle": {
+    "prefix": "ticktock",
+    "description": "tick, output; tock, output;",
+    "body": ["tick, output;", "tock, output;"]
+  },
+  "Repeat": {
+    "prefix": "repeat",
+    "body": ["repeat ${1:10} {", "    ${0:tick, tock, output;}", "}"]
+  },
+  "While": {
+    "prefix": "while",
+    "body": ["while ${1:out} ${2:<>} ${3:0} {", "    ${0:tick, tock;}", "}"]
+  }
+}

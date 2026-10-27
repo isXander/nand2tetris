@@ -1,0 +1,1 @@
+ConstantAsOutput.hdl:6:19: error[hdl-constant-as-output]: output pin `out` cannot be connected to a constant

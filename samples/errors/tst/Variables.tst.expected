@@ -1,0 +1,10 @@
+Variables.tst:3:21: error[tst-type-mismatch]: `time` is text and needs an explicit `%S` format, e.g. `time%S1.4.1`
+Variables.tst:4:5: error[tst-unknown-variable]: chip `And` has no pin named `c`
+Variables.tst:5:5: error[tst-read-only-variable]: `out` is an output pin and cannot be set; only input pins are writable
+Variables.tst:6:7: error[tst-value-out-of-range]: 2 does not fit in 1 bit (allowed range -1..=1)
+Variables.tst:7:7: error[tst-value-out-of-range]: -2 does not fit in 1 bit (allowed range -1..=1)
+Variables.tst:8:5: error[tst-read-only-variable]: `time` is read-only
+Variables.tst:9:12: error[tst-type-mismatch]: type mismatch: cannot compare text with an integer (`time` is the only text variable; text constants are written %S"...")
+Variables.tst:10:12: error[tst-type-mismatch]: type mismatch: cannot compare text with an integer (`time` is the only text variable; text constants are written %S"...")
+Variables.tst:11:12: error[tst-type-mismatch]: text can only be compared with `=` or `<>`, not `<`
+Variables.tst:12:7: error[tst-type-mismatch]: type mismatch: cannot compare text with an integer (`time` is the only text variable; text constants are written %S"...")

@@ -1,0 +1,7 @@
+CHIP RecursiveA {
+    IN a;
+    OUT out;
+
+    PARTS:
+    RecursiveB(a=a, out=out);
+}

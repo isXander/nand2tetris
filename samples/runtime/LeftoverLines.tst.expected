@@ -1,0 +1,2 @@
+failed: comparison failure at line 3: the script ended, but the compare file expects more output:
+  expected: | 1 | 1 | 1 |

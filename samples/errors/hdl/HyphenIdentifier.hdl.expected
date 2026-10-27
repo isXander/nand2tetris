@@ -1,0 +1,2 @@
+HyphenIdentifier.hdl:2:10: error[hdl-invalid-identifier]: identifier `in-put` contains a hyphen; identifiers may only contain letters and digits
+HyphenIdentifier.hdl:6:14: error[hdl-invalid-identifier]: identifier `in-put` contains a hyphen; identifiers may only contain letters and digits

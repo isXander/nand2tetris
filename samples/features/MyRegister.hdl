@@ -1,0 +1,12 @@
+/**
+ * A project chip implemented by a built-in: its interface must match the
+ * built-in Register's, and CLOCKED marks the pins that only take effect at
+ * the next clock cycle.
+ */
+CHIP MyRegister {
+    IN in[16], load;
+    OUT out[16];
+
+    BUILTIN Register;
+    CLOCKED in, load;
+}

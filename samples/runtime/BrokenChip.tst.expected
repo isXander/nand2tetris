@@ -1,0 +1,3 @@
+error at 1:6: cannot load `Broken.hdl`:
+  <dir>/Broken.hdl:6:5: unknown chip `Nto`: no `Nto.hdl` in the project and no built-in chip of that name
+    note: searched <dir>/Nto.hdl

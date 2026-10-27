@@ -1,0 +1,35 @@
+/**
+ * The Hack CPU: executes A- and C-instructions, reading inM and writing
+ * outM to addressM when writeM is set; pc is the next instruction's address.
+ */
+CHIP CPU {
+    IN inM[16], instruction[16], reset;
+    OUT outM[16], writeM, addressM[15], pc[15];
+
+    PARTS:
+    // A register: loaded by A-instructions, or by C-instructions with the A destination bit.
+    Not(in=instruction[15], out=isA);
+    And(a=instruction[15], b=instruction[5], out=destA);
+    Or(a=isA, b=destA, out=loadA);
+    Mux16(a=aluOut, b=instruction, sel=isA, out=aIn);
+    ARegister(in=aIn, load=loadA, out=a, out[0..14]=addressM);
+    
+    // D register and ALU inputs.
+    And(a=instruction[15], b=instruction[4], out=loadD);
+    DRegister(in=aluOut, load=loadD, out=d);
+    Mux16(a=a, b=inM, sel=instruction[12], out=aOrM);
+    ALU(x=d, y=aOrM, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8],
+        f=instruction[7], no=instruction[6], out=aluOut, out=outM, zr=zero, ng=negative);
+    And(a=instruction[15], b=instruction[3], out=writeM);
+    
+    // Jump if the selected condition holds for the ALU output.
+    Or(a=zero, b=negative, out=notPositive);
+    Not(in=notPositive, out=positive);
+    And(a=instruction[2], b=negative, out=jlt);
+    And(a=instruction[1], b=zero, out=jeq);
+    And(a=instruction[0], b=positive, out=jgt);
+    Or(a=jlt, b=jeq, out=jle);
+    Or(a=jle, b=jgt, out=condition);
+    And(a=instruction[15], b=condition, out=jump);
+    PC(in=a, load=jump, inc=true, reset=reset, out[0..14]=pc);
+}

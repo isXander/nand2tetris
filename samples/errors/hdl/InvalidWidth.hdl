@@ -1,0 +1,7 @@
+CHIP InvalidWidth {
+    IN a[0], c[17];
+    OUT b[16];
+
+    PARTS:
+    Not16(in=a, out=b);
+}

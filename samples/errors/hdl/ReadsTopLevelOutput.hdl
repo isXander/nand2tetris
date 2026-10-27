@@ -1,0 +1,8 @@
+CHIP ReadsTopLevelOutput {
+    IN a;
+    OUT out, again;
+
+    PARTS:
+    Not(in=a, out=out);
+    Not(in=out, out=again);
+}

@@ -1,0 +1,20 @@
+/**
+ * Bus constants and partial bindings: `true`/`false` fill whole buses or
+ * selected bits, one formal pin can be bound in several slices, and part
+ * outputs can be split into slices.
+ */
+CHIP Constants {
+    IN in[8];
+    OUT masked[8], ones[16], low, copy[8];
+
+    PARTS:
+    // masked = in & 11000111
+    And16(a[0..7]=in, a[8..15]=false,
+          b[0..2]=true, b[3..5]=false, b[6..7]=true, b[8..15]=false,
+          out[0..7]=masked);
+    Not16(in=false, out=ones);
+    // low = (in != 0) and in[0]
+    Or8Way(in=in, out=any);
+    And(a=any, b=in[0], out=low);
+    Or16(a[0..7]=in, a[8..15]=false, b=false, out[0..7]=copy);
+}

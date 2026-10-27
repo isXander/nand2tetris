@@ -1,0 +1,1 @@
+DuplicateSection.hdl:3:5: error[hdl-duplicate-section]: duplicate `IN` section

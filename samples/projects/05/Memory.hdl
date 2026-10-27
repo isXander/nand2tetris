@@ -1,0 +1,16 @@
+/**
+ * The Hack data memory: RAM16K at 0-16383, the screen at 16384-24575
+ * and the keyboard at 24576. Higher addresses read the keyboard.
+ */
+CHIP Memory {
+    IN in[16], load, address[15];
+    OUT out[16];
+
+    PARTS:
+    DMux4Way(in=load, sel=address[13..14], a=ram0, b=ram1, c=screen);
+    Or(a=ram0, b=ram1, out=ramLoad);
+    RAM16K(in=in, load=ramLoad, address=address[0..13], out=ramOut);
+    Screen(in=in, load=screen, address=address[0..12], out=screenOut);
+    Keyboard(out=key);
+    Mux4Way16(a=ramOut, b=ramOut, c=screenOut, d=key, sel=address[13..14], out=out);
+}

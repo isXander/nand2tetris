@@ -1,0 +1,1 @@
+MissingImplementation.hdl:4:1: error[hdl-missing-implementation]: expected `PARTS:` or `BUILTIN` implementation

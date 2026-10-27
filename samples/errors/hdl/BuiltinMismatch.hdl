@@ -1,0 +1,6 @@
+CHIP BuiltinMismatch {
+    IN x;
+    OUT out;
+
+    BUILTIN Not;
+}

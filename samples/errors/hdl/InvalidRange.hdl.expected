@@ -1,0 +1,1 @@
+InvalidRange.hdl:6:13: error[hdl-invalid-range]: invalid range `3..1`: the start must not exceed the end

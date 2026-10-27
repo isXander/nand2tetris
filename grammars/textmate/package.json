@@ -1,0 +1,59 @@
+{
+  "name": "nand2tetris",
+  "displayName": "Nand2Tetris",
+  "version": "0.1.0",
+  "contributes": {
+    "languages": [
+      {
+        "id": "nand2tetris-hdl",
+        "aliases": [
+          "Nand2Tetris HDL",
+          "HDL"
+        ],
+        "extensions": [
+          ".hdl"
+        ],
+        "configuration": "./language-configuration/hdl.json"
+      },
+      {
+        "id": "nand2tetris-tst",
+        "aliases": [
+          "Nand2Tetris Test Script",
+          "TST"
+        ],
+        "extensions": [
+          ".tst"
+        ],
+        "configuration": "./language-configuration/tst.json"
+      },
+      {
+        "id": "nand2tetris-cmp",
+        "aliases": [
+          "Nand2Tetris Compare/Output Table"
+        ],
+        "extensions": [
+          ".cmp",
+          ".out"
+        ],
+        "configuration": "./language-configuration/cmp.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "nand2tetris-hdl",
+        "scopeName": "source.hdl.nand2tetris",
+        "path": "./syntaxes/hdl.tmLanguage.json"
+      },
+      {
+        "language": "nand2tetris-tst",
+        "scopeName": "source.tst.nand2tetris",
+        "path": "./syntaxes/tst.tmLanguage.json"
+      },
+      {
+        "language": "nand2tetris-cmp",
+        "scopeName": "text.cmp.nand2tetris",
+        "path": "./syntaxes/cmp.tmLanguage.json"
+      }
+    ]
+  }
+}

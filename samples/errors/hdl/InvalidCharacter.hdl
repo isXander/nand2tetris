@@ -1,0 +1,7 @@
+CHIP InvalidCharacter {
+    IN a;
+    OUT out;
+
+    PARTS:
+    Not(in=a, out=out) @;
+}

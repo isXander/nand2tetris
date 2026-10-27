@@ -1,0 +1,9 @@
+/** Two instances of the same built-in. */
+CHIP TwoRams {
+    IN in[16], load, address[3];
+    OUT a[16], b[16];
+
+    PARTS:
+    RAM8(in=in, load=load, address=address, out=a);
+    RAM8(in=in, load=load, address=address, out=b);
+}

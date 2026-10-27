@@ -1,0 +1,1 @@
+RecursiveB.hdl:6:5: error[hdl-recursive-chip]: chip `RecursiveA` recursively includes itself: RecursiveA -> RecursiveB -> RecursiveA

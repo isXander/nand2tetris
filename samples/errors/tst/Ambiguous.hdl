@@ -1,0 +1,8 @@
+/** Pins whose names differ only in case. */
+CHIP Ambiguous {
+    IN ab, AB;
+    OUT out;
+
+    PARTS:
+    And(a=ab, b=AB, out=out);
+}

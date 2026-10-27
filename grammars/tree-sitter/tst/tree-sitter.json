@@ -1,0 +1,22 @@
+{
+  "grammars": [
+    {
+      "name": "tst",
+      "camelcase": "Tst",
+      "scope": "source.tst",
+      "path": ".",
+      "file-types": [
+        "tst"
+      ],
+      "highlights": "queries/highlights.scm"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MPL-2.0",
+    "description": "Nand to Tetris test scripts grammar for tree-sitter",
+    "links": {
+      "repository": "https://github.com/isXander/nand2tetris"
+    }
+  }
+}

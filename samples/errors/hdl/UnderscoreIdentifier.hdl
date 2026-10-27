@@ -1,0 +1,8 @@
+CHIP UnderscoreIdentifier {
+    IN a;
+    OUT out;
+
+    PARTS:
+    Not(in=a, out=not_a);
+    Not(in=not_a, out=out);
+}

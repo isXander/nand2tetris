@@ -1,0 +1,2 @@
+ConflictingDrivers.hdl:8:19: error[hdl-conflicting-drivers]: `w` has more than one driver; each signal bit may only be driven once
+    note: also driven here (ConflictingDrivers.hdl:7:19)

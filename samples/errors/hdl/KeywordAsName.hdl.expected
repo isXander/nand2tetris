@@ -1,0 +1,1 @@
+KeywordAsName.hdl:2:8: error[unexpected-token]: expected pin name, found keyword `true`; keywords cannot be used as names

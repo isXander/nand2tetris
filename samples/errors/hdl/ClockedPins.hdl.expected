@@ -1,0 +1,3 @@
+ClockedPins.hdl:6:17: warning[hdl-duplicate-clocked-pin]: pin `in` is listed as clocked more than once
+    note: first listed here (ClockedPins.hdl:6:13)
+ClockedPins.hdl:6:21: error[hdl-unknown-clocked-pin]: `CLOCKED` names `x`, which is not a declared pin

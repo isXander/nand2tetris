@@ -1,0 +1,4 @@
+InvalidWidth.hdl:2:10: error[hdl-invalid-width]: bus width must be at least 1 (`name[N]` declares N bits, not index N)
+InvalidWidth.hdl:2:16: error[hdl-invalid-width]: bus width 17 exceeds the maximum supported width of 16
+InvalidWidth.hdl:6:11: error[hdl-width-mismatch]: width mismatch: `in` selects 16 bits but `a` provides 1
+InvalidWidth.hdl:2:14: warning[hdl-unused-input]: input `c` is never used

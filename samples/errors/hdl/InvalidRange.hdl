@@ -1,0 +1,7 @@
+CHIP InvalidRange {
+    IN a[3];
+    OUT b[16];
+
+    PARTS:
+    Not16(in[3..1]=a, out=b);
+}

@@ -1,0 +1,2 @@
+UsesBrokenChip.hdl:6:5: error[hdl-chip-has-errors]: chip `UnknownPin` has errors and cannot be used
+    note: chip `Not` has no pin named `input` (available: `in`, `out`) (UnknownPin.hdl:6:9)

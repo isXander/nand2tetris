@@ -1,0 +1,8 @@
+CHIP UsageWarnings {
+    IN a, b;
+    OUT out[2], other;
+
+    PARTS:
+    Not(in=a, out=out[0], out=unused);
+    And(a=a, out=other);
+}

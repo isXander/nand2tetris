@@ -1,0 +1,6 @@
+Loops.tst:2:8: error[tst-invalid-repeat-count]: repeat count must be positive; omit the count to repeat forever
+Loops.tst:4:5: error[tst-nested-loop]: loops cannot be nested
+Loops.tst:6:1: error[tst-empty-loop-body]: `repeat` body must contain at least one command
+Loops.tst:7:9: error[tst-invalid-relation]: `==` is not a relation
+Loops.tst:8:9: error[tst-invalid-relation]: `!=` is not a relation; use `<>`
+Loops.tst:9:19: error[unexpected-token]: a loop block is not followed by a terminator

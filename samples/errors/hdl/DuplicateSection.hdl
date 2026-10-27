@@ -1,0 +1,8 @@
+CHIP DuplicateSection {
+    IN a;
+    IN b;
+    OUT out;
+
+    PARTS:
+    And(a=a, b=b, out=out);
+}

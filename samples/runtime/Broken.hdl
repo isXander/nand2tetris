@@ -1,0 +1,7 @@
+CHIP Broken {
+    IN a;
+    OUT out;
+
+    PARTS:
+    Nto(in=a, out=out);
+}

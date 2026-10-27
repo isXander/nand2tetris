@@ -1,0 +1,3 @@
+TwoPartLoop.hdl:6:5: error[hdl-combinational-cycle]: combinational feedback loop through `x`, `y`; a feedback path must pass through a clocked pin (e.g. a DFF)
+    note: `And` is part of the loop (TwoPartLoop.hdl:6:5)
+    note: `Not` is part of the loop (TwoPartLoop.hdl:7:5)

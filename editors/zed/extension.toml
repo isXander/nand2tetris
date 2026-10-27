@@ -11,12 +11,12 @@ repository = "https://github.com/isXander/nand2tetris"
 [grammars.hdl]
 repository = "file:///Users/isxander/Code/nand2tetris"
 rev = "52d276863c542de4aeee2c638bbb967075c7ccb6"
-path = "editors/zed/tree-sitter-hdl"
+path = "grammars/tree-sitter/hdl"
 
 [grammars.tst]
 repository = "file:///Users/isxander/Code/nand2tetris"
 rev = "52d276863c542de4aeee2c638bbb967075c7ccb6"
-path = "editors/zed/tree-sitter-tst"
+path = "grammars/tree-sitter/tst"
 
 [language_servers.n2t]
 name = "Nand2Tetris Language Server"

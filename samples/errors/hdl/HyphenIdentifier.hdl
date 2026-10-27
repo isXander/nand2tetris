@@ -1,0 +1,7 @@
+CHIP HyphenIdentifier {
+    IN in-put;
+    OUT out;
+
+    PARTS:
+    Not(in=in-put, out=out);
+}

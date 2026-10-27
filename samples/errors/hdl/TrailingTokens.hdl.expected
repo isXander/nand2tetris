@@ -1,0 +1,1 @@
+TrailingTokens.hdl:8:1: error[unexpected-token]: unexpected keyword `CHIP` after the chip declaration; a file declares exactly one chip

@@ -1,0 +1,8 @@
+CHIP DrivesTopLevelInput {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+    Not(in=b, out=a);
+    Not(in=b, out=out);
+}

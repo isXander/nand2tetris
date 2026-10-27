@@ -17,7 +17,9 @@ pub trait Primitive: Send {
 
     fn tock(&mut self) {}
 
-    /// Reads script-visible state (`Name[]` uses index 0).
+    /// Reads script-visible state (`Name[]` uses index 0). Between `tick` and
+    /// `tock` this shows the captured next state, as the reference simulator's
+    /// inspection does, even though the chip's outputs have not changed yet.
     fn read_state(&self, _index: usize) -> Option<u64> {
         None
     }
@@ -260,7 +262,7 @@ impl Primitive for Reg {
     }
 
     fn read_state(&self, index: usize) -> Option<u64> {
-        (index == 0).then_some(self.state)
+        (index == 0).then_some(self.pending.unwrap_or(self.state))
     }
 
     fn write_state(&mut self, index: usize, value: u64) -> bool {
@@ -309,7 +311,7 @@ impl Primitive for Pc {
     }
 
     fn read_state(&self, index: usize) -> Option<u64> {
-        (index == 0).then_some(self.state)
+        (index == 0).then_some(self.pending.unwrap_or(self.state))
     }
 
     fn write_state(&mut self, index: usize, value: u64) -> bool {
@@ -357,7 +359,10 @@ impl Primitive for Ram {
     }
 
     fn read_state(&self, index: usize) -> Option<u64> {
-        self.words.get(index).map(|&w| w as u64)
+        match self.pending {
+            Some((address, value)) if address == index => Some(value as u64),
+            _ => self.words.get(index).map(|&w| w as u64),
+        }
     }
 
     fn write_state(&mut self, index: usize, value: u64) -> bool {

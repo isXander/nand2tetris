@@ -1,12 +1,291 @@
 {
-  "name": "code",
-  "module": "index.ts",
-  "type": "module",
+  "name": "nand2tetris",
+  "displayName": "Nand2Tetris",
+  "description": "Nand to Tetris HDL and test script support: highlighting, diagnostics, completion, navigation, rename, and a test explorer for .tst scripts.",
+  "version": "0.1.0",
+  "publisher": "isxander",
+  "license": "MPL-2.0",
   "private": true,
-  "devDependencies": {
-    "@types/bun": "latest"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isXander/nand2tetris",
+    "directory": "editors/code"
   },
-  "peerDependencies": {
-    "typescript": "^7"
+  "engines": {
+    "vscode": "^1.91.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Testing",
+    "Snippets"
+  ],
+  "keywords": [
+    "nand2tetris",
+    "hdl",
+    "hack",
+    "tst",
+    "hardware"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "workspaceContains:**/*.hdl",
+    "workspaceContains:**/*.tst"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "nand2tetris-hdl",
+        "aliases": [
+          "Nand2Tetris HDL",
+          "HDL"
+        ],
+        "extensions": [
+          ".hdl"
+        ],
+        "configuration": "./language-configuration/hdl.json"
+      },
+      {
+        "id": "nand2tetris-tst",
+        "aliases": [
+          "Nand2Tetris Test Script",
+          "TST"
+        ],
+        "extensions": [
+          ".tst"
+        ],
+        "configuration": "./language-configuration/tst.json"
+      },
+      {
+        "id": "nand2tetris-cmp",
+        "aliases": [
+          "Nand2Tetris Compare/Output Table"
+        ],
+        "extensions": [
+          ".cmp",
+          ".out"
+        ],
+        "configuration": "./language-configuration/cmp.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "nand2tetris-hdl",
+        "scopeName": "source.hdl.nand2tetris",
+        "path": "./syntaxes/hdl.tmLanguage.json"
+      },
+      {
+        "language": "nand2tetris-tst",
+        "scopeName": "source.tst.nand2tetris",
+        "path": "./syntaxes/tst.tmLanguage.json"
+      },
+      {
+        "language": "nand2tetris-cmp",
+        "scopeName": "text.cmp.nand2tetris",
+        "path": "./syntaxes/cmp.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "nand2tetris-hdl",
+        "path": "./snippets/hdl.json"
+      },
+      {
+        "language": "nand2tetris-tst",
+        "path": "./snippets/tst.json"
+      }
+    ],
+    "configuration": {
+      "title": "Nand2Tetris",
+      "properties": {
+        "nand2tetris.path": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "Path to the `n2t` executable. When empty, a binary bundled with the extension is used if present, otherwise `n2t` from `PATH`."
+        },
+        "nand2tetris.server.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Start the Nand2Tetris language server (diagnostics, completion, navigation)."
+        },
+        "nand2tetris.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Trace communication with the language server in the output panel."
+        },
+        "nand2tetris.test.maxCommands": {
+          "type": "number",
+          "default": 10000000,
+          "minimum": 1,
+          "description": "Stop a test script after this many commands (guards against infinite loops)."
+        },
+        "nand2tetris.test.requireCompare": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Treat scripts without `compare-to` as failures instead of passes."
+        },
+        "nand2tetris.test.strictPauses": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Treat `!` pauses and breakpoints as failures instead of continuing past them."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "nand2tetris.runTest",
+        "title": "Run Test Script",
+        "category": "Nand2Tetris",
+        "icon": "$(play)"
+      },
+      {
+        "command": "nand2tetris.compareOutput",
+        "title": "Compare Output with Expected (.out \u2194 .cmp)",
+        "category": "Nand2Tetris",
+        "icon": "$(diff)"
+      },
+      {
+        "command": "nand2tetris.evalChip",
+        "title": "Evaluate Chip\u2026",
+        "category": "Nand2Tetris"
+      },
+      {
+        "command": "nand2tetris.checkFolder",
+        "title": "Check All Files in Folder",
+        "category": "Nand2Tetris"
+      },
+      {
+        "command": "nand2tetris.restartServer",
+        "title": "Restart Language Server",
+        "category": "Nand2Tetris"
+      },
+      {
+        "command": "nand2tetris.showOutput",
+        "title": "Show Language Server Output",
+        "category": "Nand2Tetris"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "nand2tetris.runTest",
+          "when": "resourceLangId == nand2tetris-tst || resourceLangId == nand2tetris-hdl",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "nand2tetris.compareOutput",
+          "when": "resourceLangId == nand2tetris-tst || resourceLangId == nand2tetris-cmp",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "nand2tetris.runTest",
+          "when": "resourceLangId == nand2tetris-tst || resourceLangId == nand2tetris-hdl",
+          "group": "nand2tetris@1"
+        },
+        {
+          "command": "nand2tetris.evalChip",
+          "when": "resourceLangId == nand2tetris-hdl",
+          "group": "nand2tetris@2"
+        },
+        {
+          "command": "nand2tetris.compareOutput",
+          "when": "resourceLangId == nand2tetris-tst || resourceLangId == nand2tetris-cmp",
+          "group": "nand2tetris@3"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "nand2tetris.runTest",
+          "when": "resourceExtname == .tst || resourceExtname == .hdl",
+          "group": "nand2tetris@1"
+        },
+        {
+          "command": "nand2tetris.checkFolder",
+          "when": "explorerResourceIsFolder",
+          "group": "nand2tetris@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "nand2tetris.evalChip",
+          "when": "editorLangId == nand2tetris-hdl"
+        }
+      ]
+    },
+    "taskDefinitions": [
+      {
+        "type": "n2t",
+        "required": [
+          "command",
+          "path"
+        ],
+        "properties": {
+          "command": {
+            "type": "string",
+            "enum": [
+              "check",
+              "test"
+            ],
+            "description": "The n2t subcommand to run."
+          },
+          "path": {
+            "type": "string",
+            "description": "File or folder to check or test."
+          }
+        }
+      }
+    ],
+    "problemMatchers": [
+      {
+        "name": "n2t",
+        "owner": "nand2tetris",
+        "source": "n2t",
+        "fileLocation": [
+          "autoDetect",
+          "${cwd}"
+        ],
+        "pattern": [
+          {
+            "regexp": "^(error|warning|info|hint)(?:\\[([^\\]]+)\\])?: (.*)$",
+            "severity": 1,
+            "code": 2,
+            "message": 3
+          },
+          {
+            "regexp": "^\\s*-->\\s+(.*?):(\\d+):(\\d+)$",
+            "file": 1,
+            "line": 2,
+            "column": 3
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "bun scripts/sync-grammars.ts && bun build src/extension.ts --outdir dist --target node --format cjs --external vscode --sourcemap=linked --minify",
+    "watch": "bun run build --watch",
+    "typecheck": "tsc --noEmit -p . && tsc --noEmit -p tsconfig.scripts.json",
+    "bundle-server": "bun scripts/bundle-server.ts",
+    "package": "bun run build && bun scripts/package.ts"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^22.0.0",
+    "@types/vscode": "~1.91.0",
+    "@vscode/vsce": "^4.0.0",
+    "typescript": "^7.0.0"
   }
 }

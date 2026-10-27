@@ -1,0 +1,3 @@
+BuiltinState.tst:3:33: error[tst-invalid-index]: index 8 is out of range for `RAM8` (0..7)
+BuiltinState.tst:3:41: error[tst-invalid-index]: `RAM8` needs an index between 0 and 7
+BuiltinState.tst:3:44: error[tst-unknown-builtin-chip]: the loaded chip `RAM8` contains no built-in `Register` with script-accessible state

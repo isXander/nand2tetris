@@ -1,0 +1,2 @@
+LoopBesideDff.hdl:7:5: error[hdl-combinational-cycle]: combinational feedback loop through `loop`; a feedback path must pass through a clocked pin (e.g. a DFF)
+    note: `Not` is part of the loop (LoopBesideDff.hdl:7:5)

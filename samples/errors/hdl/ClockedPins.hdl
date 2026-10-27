@@ -1,0 +1,7 @@
+CHIP ClockedPins {
+    IN in;
+    OUT out;
+
+    BUILTIN DFF;
+    CLOCKED in, in, x;
+}

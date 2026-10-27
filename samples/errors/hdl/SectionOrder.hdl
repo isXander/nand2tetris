@@ -1,0 +1,7 @@
+CHIP SectionOrder {
+    OUT out;
+    IN a;
+
+    PARTS:
+    Not(in=a, out=out);
+}

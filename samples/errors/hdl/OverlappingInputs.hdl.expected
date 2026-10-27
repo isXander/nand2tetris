@@ -1,0 +1,3 @@
+OverlappingInputs.hdl:6:22: error[hdl-overlapping-input-binding]: input `a` is connected more than once (overlapping bits)
+    note: previously connected here (OverlappingInputs.hdl:6:11)
+OverlappingInputs.hdl:6:5: warning[hdl-unconnected-part-input]: bits 12..15 of input `a` of `And16` are not connected; they default to false

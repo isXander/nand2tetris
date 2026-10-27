@@ -1,0 +1,1 @@
+ReadsTopLevelOutput.hdl:7:12: error[hdl-reads-top-level-output]: top-level output `out` cannot be used as a part input; connect the driving part output to an additional internal signal and use that instead

@@ -1,0 +1,2 @@
+Unsupported.tst:2:1: error[tst-unsupported-command]: `ticktock` is a CPU emulator command and is not supported by the hardware simulator
+Unsupported.tst:3:1: error[tst-unsupported-command]: `vmstep` is a VM emulator command and is not supported by the hardware simulator

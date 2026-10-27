@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Nand2Tetris Compare/Output Table",
+  "scopeName": "text.cmp.nand2tetris",
+  "patterns": [
+    {
+      "comment": "Header row: the first row of a table contains column names.",
+      "begin": "\\A(?=\\|)",
+      "end": "$",
+      "patterns": [
+        { "match": "\\|", "name": "punctuation.separator.table.cmp" },
+        { "match": "[^|\\s]+", "name": "entity.name.tag.column.cmp" }
+      ]
+    },
+    { "match": "\\|", "name": "punctuation.separator.table.cmp" },
+    { "match": "\\*", "name": "constant.character.wildcard.cmp" },
+    { "match": "-?\\b\\d+\\+?", "name": "constant.numeric.cmp" },
+    { "match": "\\b[0-9a-fA-F]+\\b", "name": "constant.numeric.hex.cmp" }
+  ]
+}

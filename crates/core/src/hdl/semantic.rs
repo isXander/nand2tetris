@@ -545,8 +545,13 @@ impl<'a> Analyzer<'a> {
                 }
             }
 
-            // Unconnected input bits default to zero.
-            if let Some(interface) = self.parts[p].interface.clone() {
+            // Unconnected input bits default to zero. Skipped when a binding
+            // names an unknown pin or invalid bits, which is already an error
+            // and may be the missing connection.
+            let has_invalid_binding = self.parts[p].bindings.iter().any(|b| b.formal.is_none());
+            if let Some(interface) = self.parts[p].interface.clone()
+                && !has_invalid_binding
+            {
                 for (index, pin) in interface.inputs.iter().enumerate() {
                     let bits = assigned.get(&index);
                     let missing: Vec<u32> = (0..pin.width)
@@ -559,6 +564,11 @@ impl<'a> Analyzer<'a> {
                         format!(
                             "input `{}` of `{}` is not connected; it defaults to false",
                             pin.name, interface.name
+                        )
+                    } else if missing.len() == 1 {
+                        format!(
+                            "bit {} of input `{}` of `{}` is not connected; it defaults to false",
+                            missing[0], pin.name, interface.name
                         )
                     } else {
                         format!(
@@ -1062,6 +1072,11 @@ impl<'a> Analyzer<'a> {
                     let (name, span) = (signal.name.clone(), signal.declaration);
                     let message = if missing.len() as u32 == width {
                         format!("output `{name}` is never driven; it will always be 0")
+                    } else if missing.len() == 1 {
+                        format!(
+                            "bit {} of output `{name}` is never driven; it will always be 0",
+                            missing[0]
+                        )
                     } else {
                         format!(
                             "bits {} of output `{name}` are never driven; they will always be 0",

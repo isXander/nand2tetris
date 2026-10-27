@@ -1,0 +1,5 @@
+Methods.tst:3:13: error[tst-invalid-file-name]: expected a `.hack` or `.asm` file name
+Methods.tst:4:8: error[tst-invalid-arguments]: `ROM32K load` takes 1 argument, but 0 were given
+Methods.tst:5:8: error[tst-unknown-method]: built-in `ROM32K` has no method `erase` (available: `load`)
+Methods.tst:6:1: error[tst-unknown-builtin-chip]: unknown command `RAM8`, or no built-in chip `RAM8` in the loaded chip
+Methods.tst:7:5: error[tst-read-only-variable]: the state of `ROM32K` is read-only from scripts

@@ -1,0 +1,6 @@
+CHIP UnknownBuiltin {
+    IN in;
+    OUT out;
+
+    BUILTIN Notx;
+}

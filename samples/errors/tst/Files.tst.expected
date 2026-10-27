@@ -1,0 +1,4 @@
+Files.tst:1:6: error[tst-invalid-file-name]: `../And.hdl` contains a path separator; only a file name in the script's folder is allowed
+Files.tst:2:6: error[tst-invalid-file-name]: `load` requires a file name ending in `.hdl`
+Files.tst:3:13: error[tst-invalid-file-name]: `output-file` requires a file name ending in `.out`
+Files.tst:4:12: error[tst-invalid-file-name]: `sub/Files.cmp` contains a path separator; only a file name in the script's folder is allowed

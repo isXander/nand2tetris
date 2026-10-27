@@ -5,7 +5,8 @@ Language support for [Nand to Tetris](https://www.nand2tetris.org/) hardware pro
 
 ## Features
 
-From the tree-sitter grammars (`tree-sitter-hdl`, `tree-sitter-tst`):
+From the tree-sitter grammars ([`tree-sitter-hdl`](../../grammars/tree-sitter/hdl/README.md),
+[`tree-sitter-tst`](../../grammars/tree-sitter/tst/README.md)):
 
 - Syntax highlighting, including doc comments, chip types, formal pins vs. signals,
   case-insensitive script commands, output formats and the `time` variable
@@ -66,7 +67,9 @@ for those.
 
 ## Development
 
-The scripts use [Bun](https://bun.sh) and run from the repository root.
+Requirements: Rust installed through [rustup](https://rustup.rs) (Zed compiles the
+extension with it) and [Bun](https://bun.sh) for the scripts, which run from the
+repository root.
 
 Zed fetches the grammars from git, so `extension.toml` must point at a commit that
 contains them. After committing:
@@ -76,14 +79,27 @@ bun run zed:pin-grammars           # pin to HEAD on GitHub (push first)
 bun run zed:pin-grammars --local   # pin to HEAD in this checkout
 ```
 
-Then open the command palette, run **zed: install dev extension** and choose `editors/zed`.
+Then open the command palette, run **zed: install dev extension** and choose
+`editors/zed`. Zed clones the grammars into `grammars/` and builds
+`extension.wasm`; both are gitignored. If something fails, **zed: open log** shows
+the build output.
 
-After editing a `grammar.js`, regenerate the parser and commit `src/`:
+The canonical parsers and highlighting queries live in [`grammars/`](../../grammars/README.md).
+After editing shared highlighting queries, run `bun run zed:sync-grammars` to copy
+them into Zed’s required `languages/` directory. `bun run build:zed` also does this.
+Outline, runnable, indentation and other Zed-specific queries stay in this extension.
+
+After changing the Rust code or the queries, rebuild from **zed: extensions** (the
+Rebuild button on the dev extension). After editing a `grammar.js`, regenerate the
+parser, commit `src/` and re-pin before rebuilding:
 
 ```sh
-bun run zed:generate-grammars        # both grammars
-bun run zed:generate-grammars hdl    # just one
+bun run grammars:generate        # both grammars
+bun run grammars:generate hdl    # just one
 ```
 
 Generating needs Node.js as well as Bun: tree-sitter evaluates `grammar.js` by piping
 it to `node`, which Bun's Node compatibility mode does not support.
+
+`.cargo/config.toml` keeps this crate's build output in `editors/zed/target` rather
+than the workspace's `target/`, because that is where Zed looks for the compiled wasm.

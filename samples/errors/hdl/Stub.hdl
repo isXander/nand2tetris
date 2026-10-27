@@ -1,0 +1,7 @@
+CHIP Stub {
+    IN a;
+    OUT out;
+
+    PARTS:
+    // Put your code here.
+}

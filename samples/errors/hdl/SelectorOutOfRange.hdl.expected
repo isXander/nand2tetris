@@ -1,0 +1,1 @@
+SelectorOutOfRange.hdl:6:13: error[hdl-selector-out-of-range]: selector is out of range for `a`, which is 4 bits wide; valid indices are 0..3

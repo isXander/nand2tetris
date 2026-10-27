@@ -1,0 +1,2 @@
+DrivesTopLevelInput.hdl:6:19: error[hdl-drives-top-level-input]: top-level input `a` cannot be driven by part output `out`
+DrivesTopLevelInput.hdl:2:8: warning[hdl-unused-input]: input `a` is never used

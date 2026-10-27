@@ -1,0 +1,141 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Nand2Tetris Test Script",
+  "scopeName": "source.tst.nand2tetris",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#statement" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.documentation.tst",
+          "begin": "/\\*\\*(?!/)",
+          "end": "\\*/",
+          "captures": { "0": { "name": "punctuation.definition.comment.tst" } }
+        },
+        {
+          "name": "comment.block.tst",
+          "begin": "/\\*",
+          "end": "\\*/",
+          "captures": { "0": { "name": "punctuation.definition.comment.tst" } }
+        },
+        {
+          "name": "comment.line.double-slash.tst",
+          "match": "(//).*$",
+          "captures": { "1": { "name": "punctuation.definition.comment.tst" } }
+        }
+      ]
+    },
+    "statement": {
+      "patterns": [
+        { "include": "#file-command" },
+        { "include": "#output-list" },
+        { "include": "#loop" },
+        { "include": "#command" },
+        { "include": "#builtin-call" },
+        { "include": "#values" },
+        { "include": "#terminators" },
+        { "include": "#braces" }
+      ]
+    },
+    "file-command": {
+      "match": "(?i)\\b(load|output-file|compare-to)(?![\\w-])\\s+(\"(?:[^\"\\\\]|\\\\.)*\"|[^\\s,;!]+)?",
+      "captures": {
+        "1": { "name": "keyword.other.command.tst" },
+        "2": { "name": "string.unquoted.filename.tst" }
+      }
+    },
+    "output-list": {
+      "begin": "(?i)\\b(output-list)(?![\\w-])",
+      "beginCaptures": { "1": { "name": "keyword.other.command.tst" } },
+      "end": "(?=[,;!])",
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#format" },
+        { "include": "#variable" }
+      ]
+    },
+    "loop": {
+      "match": "(?i)\\b(repeat|while)(?![\\w-])",
+      "name": "keyword.control.loop.tst"
+    },
+    "command": {
+      "patterns": [
+        {
+          "match": "(?i)\\b(set|eval|output|tick|tock|echo|clear-echo|breakpoint|clear-breakpoints)(?![\\w-])",
+          "name": "keyword.other.command.tst"
+        },
+        {
+          "match": "(?i)\\b(ticktock|vmstep)(?![\\w-])",
+          "name": "keyword.other.command.unsupported.tst"
+        }
+      ]
+    },
+    "builtin-call": {
+      "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\s+(?i:(load))\\b\\s*([^\\s,;!]+)?",
+      "captures": {
+        "1": { "name": "entity.name.type.builtin.tst" },
+        "2": { "name": "entity.name.function.method.tst" },
+        "3": { "name": "string.unquoted.filename.tst" }
+      }
+    },
+    "values": {
+      "patterns": [
+        { "include": "#strings" },
+        { "include": "#format" },
+        {
+          "match": "%[BbDdXx]-?[0-9A-Fa-f]+",
+          "name": "constant.numeric.radix.tst"
+        },
+        { "match": "-?\\b\\d+\\b", "name": "constant.numeric.decimal.tst" },
+        { "match": "<>|<=|>=|=|<|>", "name": "keyword.operator.comparison.tst" },
+        { "include": "#variable" }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.tst",
+          "begin": "(%[Ss])?\\s*\"",
+          "beginCaptures": { "1": { "name": "storage.type.string.tst" } },
+          "end": "\"|$",
+          "patterns": [{ "match": "\\\\.", "name": "constant.character.escape.tst" }]
+        }
+      ]
+    },
+    "format": {
+      "match": "%[BbDdXxSs]\\d+\\.\\d+\\.\\d+",
+      "name": "storage.modifier.format.tst"
+    },
+    "variable": {
+      "patterns": [
+        {
+          "match": "(?i)\\btime\\b",
+          "name": "variable.language.time.tst"
+        },
+        {
+          "match": "\\b([A-Za-z_][A-Za-z0-9_]*)(\\[)(\\d*)(\\])",
+          "captures": {
+            "1": { "name": "entity.name.type.builtin.tst" },
+            "2": { "name": "punctuation.definition.index.begin.tst" },
+            "3": { "name": "constant.numeric.index.tst" },
+            "4": { "name": "punctuation.definition.index.end.tst" }
+          }
+        },
+        { "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b", "name": "variable.other.pin.tst" }
+      ]
+    },
+    "terminators": {
+      "patterns": [
+        { "match": "!", "name": "keyword.control.pause.tst" },
+        { "match": "[,;]", "name": "punctuation.terminator.tst" }
+      ]
+    },
+    "braces": {
+      "match": "[{}]",
+      "name": "punctuation.section.block.tst"
+    }
+  }
+}

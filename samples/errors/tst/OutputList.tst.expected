@@ -1,0 +1,7 @@
+OutputList.tst:3:16: error[tst-unknown-command]: unknown command `b`
+    note: `output-list` items are separated by whitespace; the preceding `,` ended the output-list command
+OutputList.tst:3:19: error[tst-unknown-command]: unknown command `out`
+OutputList.tst:4:14: error[tst-invalid-format]: unknown format `%Q`; use `%B`, `%D`, `%X` or `%S`
+OutputList.tst:4:23: error[tst-invalid-format]: the field length of an output format must be at least 1
+OutputList.tst:4:34: error[tst-invalid-format]: invalid output format `%B1.1`; expected `%BpadLeft.length.padRight`, e.g. `%B1.16.1`
+OutputList.tst:5:12: error[unexpected-token]: `output-list` requires at least one item

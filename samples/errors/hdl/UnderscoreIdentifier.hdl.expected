@@ -1,0 +1,2 @@
+UnderscoreIdentifier.hdl:6:19: warning[hdl-non-portable-identifier]: identifier `not_a` contains `_`; portable identifiers contain only letters and digits
+UnderscoreIdentifier.hdl:7:12: warning[hdl-non-portable-identifier]: identifier `not_a` contains `_`; portable identifiers contain only letters and digits

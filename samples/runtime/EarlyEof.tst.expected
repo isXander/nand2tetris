@@ -1,0 +1,2 @@
+failed at 5:16: comparison failure at line 2: the compare file ended, but the script produced:
+  actual:   | 1 | 0 | 0 |

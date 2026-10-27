@@ -1,0 +1,2 @@
+UnknownChip.hdl:6:5: error[hdl-unknown-chip]: unknown chip `Nto`: no `Nto.hdl` in the project and no built-in chip of that name
+    note: searched Nto.hdl

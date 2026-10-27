@@ -1,0 +1,8 @@
+CHIP TwoPartLoop {
+    IN a;
+    OUT out;
+
+    PARTS:
+    And(a=a, b=y, out=x);
+    Not(in=x, out=y, out=out);
+}

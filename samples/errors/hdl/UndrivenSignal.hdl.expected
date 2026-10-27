@@ -1,0 +1,2 @@
+UndrivenSignal.hdl:7:16: error[hdl-undriven-signal]: signal `noat` is not declared and is not driven by any part output
+UndrivenSignal.hdl:6:19: warning[hdl-unused-signal]: internal signal `nota` is never used

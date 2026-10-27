@@ -1,0 +1,6 @@
+CHIP ClockMismatch {
+    IN in;
+    OUT out;
+
+    BUILTIN DFF;
+}

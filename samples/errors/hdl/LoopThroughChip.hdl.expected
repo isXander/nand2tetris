@@ -1,0 +1,3 @@
+LoopThroughChip.hdl:2:8: warning[hdl-unused-input]: input `a` is never used
+LoopThroughChip.hdl:6:5: error[hdl-combinational-cycle]: combinational feedback loop through `loop`; a feedback path must pass through a clocked pin (e.g. a DFF)
+    note: `Buffer` is part of the loop (LoopThroughChip.hdl:6:5)

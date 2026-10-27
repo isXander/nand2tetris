@@ -1,0 +1,1 @@
+AmbiguousPins.tst:3:5: error[tst-ambiguous-variable]: `Ab` is ambiguous: it matches `ab`, `AB` (scripts are case-insensitive); use the exact spelling

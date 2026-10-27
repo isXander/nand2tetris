@@ -1,0 +1,7 @@
+Literals.tst:6:11: error[invalid-escape]: invalid escape `\q`; supported escapes are \", \\, \n, \r and \t
+Literals.tst:7:6: error[unterminated-string]: unterminated string literal
+Literals.tst:2:7: error[tst-invalid-integer]: `2` is not a valid binary integer
+Literals.tst:3:7: error[tst-invalid-integer]: `G` is not a valid hexadecimal integer
+Literals.tst:4:7: error[tst-value-out-of-range]: decimal literal is outside the 16-bit range
+Literals.tst:5:7: error[tst-value-out-of-range]: binary literals may have at most 16 digits
+Literals.tst:7:19: error[tst-missing-terminator]: expected `,`, `;` or `!` after `echo`, found end of file

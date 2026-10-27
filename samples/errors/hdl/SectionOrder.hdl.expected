@@ -1,0 +1,1 @@
+SectionOrder.hdl:3:5: error[hdl-section-order]: the `IN` section must come before the `OUT` section

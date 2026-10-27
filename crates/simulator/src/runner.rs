@@ -1008,14 +1008,15 @@ pub fn load_failure(file_name: &str, unit: &ChipUnit) -> String {
     message.push(':');
     let text = unit.text().unwrap_or("");
     let lines = LineIndex::new(text);
-    let source = unit.source_id().unwrap_or(&unit.name).to_string();
+    let source = unit.source_id();
     for d in errors.iter().take(10) {
-        match d.span {
-            Some(span) => {
+        match (source, d.span) {
+            (Some(source), Some(span)) => {
                 let (line, column) = lines.line_col_one_based(text, span.start);
                 message.push_str(&format!("\n  {source}:{line}:{column}: {}", d.message));
             }
-            None => message.push_str(&format!("\n  {source}: {}", d.message)),
+            (Some(source), None) => message.push_str(&format!("\n  {source}: {}", d.message)),
+            (None, _) => message.push_str(&format!("\n  {}", d.message)),
         }
         for related in &d.related {
             message.push_str(&format!("\n    note: {}", related.message));

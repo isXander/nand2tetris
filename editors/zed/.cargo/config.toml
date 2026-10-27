@@ -1,0 +1,4 @@
+# Zed's extension builder runs `cargo build` here and expects the output in
+# this directory's `target/`, not the workspace root's.
+[build]
+target-dir = "target"

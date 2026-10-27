@@ -205,14 +205,17 @@ impl<'t> Parser<'t> {
         }
     }
 
-    fn loop_body(&mut self) -> Vec<SimpleStatement> {
+    /// The body's simple statements, and whether a (rejected) nested loop was seen.
+    fn loop_body(&mut self) -> (Vec<SimpleStatement>, bool) {
         let mut body = Vec::new();
+        let mut nested = false;
         while !self.at_eof() && !matches!(self.kind(), TokenKind::RightBrace) {
             match self.word().map(str::to_ascii_lowercase).as_deref() {
                 Some("repeat" | "while") => {
                     let span = self.span();
                     self.error(DiagnosticCode::NestedLoop, "loops cannot be nested", span);
                     // Parse and discard the nested block to resynchronise.
+                    nested = true;
                     let _ = self.statement();
                 }
                 Some(_) => {
@@ -225,7 +228,7 @@ impl<'t> Parser<'t> {
                 }
             }
         }
-        body
+        (body, nested)
     }
 
     /// `"{" body "}"`, reporting an empty body. Returns the body.
@@ -235,7 +238,7 @@ impl<'t> Parser<'t> {
             return Vec::new();
         }
         let open = self.bump();
-        let body = self.loop_body();
+        let (body, nested) = self.loop_body();
         if matches!(self.kind(), TokenKind::RightBrace) {
             self.bump();
         } else {
@@ -248,7 +251,8 @@ impl<'t> Parser<'t> {
                 .with_related_span("block opened here", open),
             );
         }
-        if body.is_empty() {
+        // A body holding only a rejected nested loop has already been reported.
+        if body.is_empty() && !nested {
             self.error(
                 DiagnosticCode::EmptyLoopBody,
                 format!("`{keyword}` body must contain at least one command"),
@@ -334,12 +338,25 @@ impl<'t> Parser<'t> {
             TokenKind::LessEqual => Relation::LessEqual,
             TokenKind::GreaterEqual => Relation::GreaterEqual,
             TokenKind::Bang => {
+                // Recover from `!=` as `<>` so the rest of the loop still parses.
+                self.bump();
+                let span = match self.kind() {
+                    TokenKind::Equals => relation_span.merge(self.bump()),
+                    _ => relation_span,
+                };
                 self.error(
                     DiagnosticCode::InvalidRelation,
                     "`!=` is not a relation; use `<>`",
-                    relation_span,
+                    span,
                 );
-                return None;
+                let right = self.operand()?;
+                return Some(Condition {
+                    left,
+                    relation: Relation::NotEqual,
+                    relation_span: span,
+                    right,
+                    span: self.span_from(start),
+                });
             }
             _ => {
                 self.error(

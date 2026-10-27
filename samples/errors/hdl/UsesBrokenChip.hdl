@@ -1,0 +1,7 @@
+CHIP UsesBrokenChip {
+    IN a;
+    OUT out;
+
+    PARTS:
+    UnknownPin(a=a, out=out);
+}

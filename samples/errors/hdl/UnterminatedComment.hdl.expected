@@ -1,0 +1,2 @@
+UnterminatedComment.hdl:7:5: error[unterminated-comment]: unterminated block comment
+UnterminatedComment.hdl:9:1: error[unexpected-token]: expected `}`, found end of file

@@ -1,0 +1,8 @@
+CHIP UndrivenSignal {
+    IN a;
+    OUT out;
+
+    PARTS:
+    Not(in=a, out=nota);
+    And(a=a, b=noat, out=out);
+}

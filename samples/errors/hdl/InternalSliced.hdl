@@ -1,0 +1,8 @@
+CHIP InternalSliced {
+    IN a[16];
+    OUT out;
+
+    PARTS:
+    Not16(in=a, out=wide);
+    Not(in=wide[0], out=out);
+}

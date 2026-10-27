@@ -1,0 +1,7 @@
+CHIP DuplicatePin {
+    IN a, a;
+    OUT out, a;
+
+    PARTS:
+    Not(in=a, out=out);
+}

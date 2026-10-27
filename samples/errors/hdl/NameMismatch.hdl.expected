@@ -1,0 +1,1 @@
+NameMismatch.hdl:1:6: error[hdl-chip-name-mismatch]: chip `SomethingElse` must be declared in `SomethingElse.hdl`, but this file is `NameMismatch.hdl`

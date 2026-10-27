@@ -1,0 +1,32 @@
+<idea-plugin>
+    <id>dev.isxander.nand2tetris</id>
+    <name>Nand2Tetris</name>
+    <vendor url="https://github.com/isXander">isXander</vendor>
+    <description><![CDATA[
+        Language support for Nand to Tetris HDL and test scripts.
+        TextMate provides highlighting for .hdl, .tst, .cmp and .out files;
+        the n2t language server provides diagnostics, completion, hover,
+        navigation, references, rename and inlay hints through LSP4IJ.
+        The server is found on PATH or downloaded automatically from GitHub releases.
+        Override its executable under Settings | Languages &amp; Frameworks | Nand2Tetris.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>org.jetbrains.plugins.textmate</depends>
+    <depends>com.redhat.devtools.lsp4ij</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <textmate.bundleProvider implementation="dev.isxander.nand2tetris.N2tTextMateBundleProvider"/>
+        <projectConfigurable parentId="language" id="dev.isxander.nand2tetris.settings"
+                             displayName="Nand2Tetris"
+                             instance="dev.isxander.nand2tetris.N2tConfigurable"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
+        <server id="n2t" name="Nand2Tetris Language Server"
+                factoryClass="dev.isxander.nand2tetris.N2tLanguageServerFactory"/>
+        <fileNamePatternMapping patterns="*.hdl" serverId="n2t" languageId="hdl"/>
+        <fileNamePatternMapping patterns="*.tst" serverId="n2t" languageId="tst"/>
+    </extensions>
+</idea-plugin>

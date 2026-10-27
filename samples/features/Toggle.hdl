@@ -1,0 +1,12 @@
+/**
+ * Feedback through a clocked pin: out flips every cycle while enable is set.
+ * A loop without the DFF would be a combinational cycle (an error).
+ */
+CHIP Toggle {
+    IN enable;
+    OUT out;
+
+    PARTS:
+    Xor(a=state, b=enable, out=next);
+    DFF(in=next, out=state, out=out);
+}

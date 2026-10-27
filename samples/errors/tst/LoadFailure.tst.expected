@@ -1,0 +1,3 @@
+LoadFailure.tst:2:6: error[tst-invalid-file-name]: `load` requires a file name ending in `.hdl`
+LoadFailure.tst:1:6: error[tst-chip-load-failed]: cannot load `Missing.hdl`: no such file in the script's folder and no built-in chip `Missing`
+    note: searched Missing.hdl

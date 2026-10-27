@@ -1,0 +1,122 @@
+# Builds `n2t` for each platform and publishes a GitHub release.
+#
+# Push a tag matching the workspace version to release it:
+#
+#   git tag v0.1.0 && git push origin v0.1.0
+#
+# Asset names follow what the Zed extension downloads (editors/zed/src/lib.rs):
+# `n2t-<arch>-<target>.tar.gz` (`.zip` on Windows) with the `n2t` binary at the
+# archive root. Tags with a suffix (`v0.2.0-rc.1`) become pre-releases, which the
+# Zed extension ignores.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to (re)build a release for, e.g. v0.1.0"
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  check:
+    name: Check version and tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - name: Tag matches the workspace version
+        shell: bash
+        run: |
+          version=$(sed -n 's/^version = "\(.*\)"$/\1/p' Cargo.toml | head -n1)
+          case "${TAG#v}" in
+            "$version" | "$version"-*) echo "releasing $version" ;;
+            *) echo "::error::tag $TAG does not match the workspace version $version"; exit 1 ;;
+          esac
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --workspace --exclude n2t-zed
+
+  build:
+    name: Build ${{ matrix.asset }}
+    needs: check
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-latest, target: aarch64-apple-darwin, asset: n2t-aarch64-apple-darwin.tar.gz }
+          - { os: macos-latest, target: x86_64-apple-darwin, asset: n2t-x86_64-apple-darwin.tar.gz }
+          # 22.04 keeps the glibc requirement low enough for older distributions.
+          - { os: ubuntu-22.04, target: x86_64-unknown-linux-gnu, asset: n2t-x86_64-unknown-linux-gnu.tar.gz }
+          - { os: ubuntu-22.04-arm, target: aarch64-unknown-linux-gnu, asset: n2t-aarch64-unknown-linux-gnu.tar.gz }
+          - { os: windows-latest, target: x86_64-pc-windows-msvc, asset: n2t-x86_64-pc-windows-msvc.zip }
+          - { os: windows-latest, target: aarch64-pc-windows-msvc, asset: n2t-aarch64-pc-windows-msvc.zip }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+      - name: Build
+        run: cargo build --release --locked -p n2t-cli --target ${{ matrix.target }}
+
+      - name: Package (tar.gz)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: tar -czf "${{ matrix.asset }}" -C "target/${{ matrix.target }}/release" n2t
+      - name: Package (zip)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path "target/${{ matrix.target }}/release/n2t.exe" -DestinationPath "${{ matrix.asset }}"
+
+      - name: Smoke test
+        # Cross-compiled binaries (x86_64 macOS on an Apple silicon runner, and
+        # arm64 Windows) cannot run here.
+        if: matrix.target != 'x86_64-apple-darwin' && matrix.target != 'aarch64-pc-windows-msvc'
+        shell: bash
+        run: target/${{ matrix.target }}/release/n2t builtins | grep -q '^Nand(a, b) -> (out)$'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: ${{ matrix.asset }}
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: assets
+          merge-multiple: true
+      - name: Checksums
+        working-directory: assets
+        run: sha256sum n2t-* > SHA256SUMS.txt && cat SHA256SUMS.txt
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG }}
+          name: ${{ env.TAG }}
+          prerelease: ${{ contains(env.TAG, '-') }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            assets/n2t-*
+            assets/SHA256SUMS.txt

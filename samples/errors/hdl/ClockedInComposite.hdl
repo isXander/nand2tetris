@@ -1,0 +1,8 @@
+CHIP ClockedInComposite {
+    IN a;
+    OUT out;
+
+    PARTS:
+    DFF(in=a, out=out);
+    CLOCKED a;
+}

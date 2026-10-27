@@ -1,0 +1,7 @@
+CHIP LoopThroughChip {
+    IN a;
+    OUT out;
+
+    PARTS:
+    Buffer(a=loop, out=loop, out=out);
+}
