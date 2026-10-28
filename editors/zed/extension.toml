@@ -9,13 +9,13 @@ repository = "https://github.com/isXander/nand2tetris"
 # The grammars live in this repository. `rev` must be a commit that contains
 # them; run `bun run zed:pin-grammars` after committing to update it.
 [grammars.hdl]
-repository = "file:///Users/isxander/Code/nand2tetris"
-rev = "52d276863c542de4aeee2c638bbb967075c7ccb6"
+repository = "https://github.com/isXander/nand2tetris"
+rev = "e505202b989f6f6bba8c6fa58ac02e825c4c9ad1"
 path = "grammars/tree-sitter/hdl"
 
 [grammars.tst]
-repository = "file:///Users/isxander/Code/nand2tetris"
-rev = "52d276863c542de4aeee2c638bbb967075c7ccb6"
+repository = "https://github.com/isXander/nand2tetris"
+rev = "e505202b989f6f6bba8c6fa58ac02e825c4c9ad1"
 path = "grammars/tree-sitter/tst"
 
 [language_servers.n2t]
